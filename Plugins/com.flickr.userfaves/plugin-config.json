@@ -1,0 +1,8 @@
+{
+    "id": "com.flickr.userfaves",
+    "display_name": "Flickr - User Favorites",
+    "service_name": "Flickr",
+    "icon": "https://combo.staticflickr.com/pw/images/favicons/favicon-228.png",
+    "site": "https://flickr.com",
+    "check_interval": 300
+}
