@@ -4,5 +4,10 @@
     "service_name": "Flickr",
     "icon": "https://combo.staticflickr.com/pw/images/favicons/favicon-228.png",
     "site": "https://flickr.com",
-    "check_interval": 300
+    "check_interval": 300,
+    "needs_verification": true,
+    "verify_variables": true,
+    "provides_attachments": true,
+    "default_service_name_visibility": "hidden",
+    "version": 1
 }

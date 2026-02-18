@@ -1,5 +1,20 @@
 /// <reference path="../../Documentation/tapestry.d.ts" />
 
+function verify() {
+
+    sendRequest(`https://taestell-cloud-worker.taestell.workers.dev/tapestry/flickr/${user}/faves?validate=true`).then(text => {
+        const jsonObject = JSON.parse(text);
+        if (jsonObject.user && typeof jsonObject.user.username === 'string' && jsonObject.user.username.trim() !== '') {
+            const verification = {
+                displayName: `Faved by ${jsonObject.user.username} on Flickr`,
+                icon: jsonObject.user.avatar
+            };
+            processVerification(verification);
+        }
+    });
+
+}
+
 function load() {
 
     sendRequest(`https://taestell-cloud-worker.taestell.workers.dev/tapestry/flickr/${user}/faves`).then(text => {
@@ -30,11 +45,11 @@ function load() {
                     return MediaAttachment.createWithUrl(att.url);
                 });
             }
-            if (Array.isArray(fetched.annotations)) {
+            /*if (Array.isArray(fetched.annotations)) {
                 item.annotations = fetched.annotations.map(ann => {
                     return Annotation.createWithText(ann.text);
                 });
-            }
+            }*/
             items.push(item);
         }
 
