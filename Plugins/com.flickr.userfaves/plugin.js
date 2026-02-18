@@ -1,5 +1,7 @@
 /// <reference path="../../Documentation/tapestry.d.ts" />
 
+const MIN_FAVE_DATE = "min_fave_date";
+
 function verify() {
 
     sendRequest(`https://taestell-cloud-worker.taestell.workers.dev/tapestry/flickr/${user}/faves?validate=true`).then(text => {
@@ -16,10 +18,16 @@ function verify() {
 }
 
 function load() {
+    let url = `https://taestell-cloud-worker.taestell.workers.dev/tapestry/flickr/${user}/faves`;
+    let minFaveDate = getItem(MIN_FAVE_DATE);
+    if (minFaveDate && typeof minFaveDate === 'string' && minFaveDate.trim() !== '') {
+        url += `?${MIN_FAVE_DATE}=${encodeURIComponent(minFaveDate)}`;
+    }
 
-    sendRequest(`https://taestell-cloud-worker.taestell.workers.dev/tapestry/flickr/${user}/faves`).then(text => {
+    sendRequest(url).then(text => {
         const jsonObject = JSON.parse(text);
         const fetchedItems = jsonObject["items"];
+        setItem(MIN_FAVE_DATE, jsonObject["newestFaveDate"]);
 
         let items = [];
 

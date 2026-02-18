@@ -9,5 +9,5 @@
     "verify_variables": true,
     "provides_attachments": true,
     "default_service_name_visibility": "hidden",
-    "version": 1
+    "version": 2
 }
