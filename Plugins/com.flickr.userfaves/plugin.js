@@ -50,7 +50,14 @@ function load() {
             if (Array.isArray(fetched.attachments)) {
                 item.attachments = fetched.attachments.map(att => {
                     // Only handle MediaAttachment for Flickr faves
-                    return MediaAttachment.createWithUrl(att.url);
+                    const media = MediaAttachment.createWithUrl(att.url);
+                    if (att.aspectSize && typeof att.aspectSize.width === 'number' && typeof att.aspectSize.height === 'number') {
+                        media.aspectSize = {
+                            width: att.aspectSize.width,
+                            height: att.aspectSize.height
+                        };
+                    }
+                    return media;
                 });
             }
             /*if (Array.isArray(fetched.annotations)) {
