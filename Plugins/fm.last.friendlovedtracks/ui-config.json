@@ -1,0 +1,9 @@
+{
+    "inputs": [
+        {
+            "name": "user",
+            "type": "text",
+            "prompt": "User"
+        }
+    ]
+}
