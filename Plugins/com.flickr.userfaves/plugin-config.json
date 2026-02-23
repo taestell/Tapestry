@@ -1,14 +1,14 @@
 {
-    "id": "com.flickr.userfaves",
-    "display_name": "Flickr - User Favorites",
-    "service_name": "Flickr",
-    "icon": "https://combo.staticflickr.com/pw/images/favicons/favicon-228.png",
-    "site": "https://flickr.com",
     "check_interval": 300,
-    "needs_verification": true,
-    "verify_variables": true,
-    "provides_attachments": true,
     "default_service_name_visibility": "hidden",
-    "version": 5,
-    "item_style": "post"
+    "display_name": "Flickr - User Favorites",
+    "icon": "https://combo.staticflickr.com/pw/images/favicons/favicon-228.png",
+    "id": "com.flickr.userfaves",
+    "item_style": "post",
+    "needs_verification": true,
+    "provides_attachments": true,
+    "service_name": "Flickr",
+    "site": "https://flickr.com",
+    "verify_variables": true,
+    "version": 6
 }

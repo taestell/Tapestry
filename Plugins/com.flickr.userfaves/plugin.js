@@ -21,7 +21,7 @@ function load() {
     let url = `https://taestell-cloud-worker.taestell.workers.dev/tapestry/flickr/${user}/faves`;
     let minFaveDate = getItem(MIN_FAVE_DATE);
     if (minFaveDate && typeof minFaveDate === 'string' && minFaveDate.trim() !== '') {
-        //url += `?${MIN_FAVE_DATE}=${encodeURIComponent(minFaveDate)}`;
+        url += `?${MIN_FAVE_DATE}=${encodeURIComponent(minFaveDate)}`;
     }
 
     sendRequest(url).then(text => {
@@ -42,8 +42,7 @@ function load() {
 
         // Convert fetchedItems to Tapestry Item objects
         for (const fetched of fetchedItems) {
-            const uri = fetched.uri || fetched.url; // oops
-            const item = Item.createWithUriDate(fetched.url, new Date(fetched.date));
+            const item = Item.createWithUriDate(fetched.uri, new Date(fetched.date));
             if (typeof fetched.title === 'string' && fetched.title.trim() !== '') {
                 item.title = fetched.title;
             }
