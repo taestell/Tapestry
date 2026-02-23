@@ -24,15 +24,15 @@ function load() {
         for (const lovedTrack of lovedTracks) {
             const item = Item.createWithUriDate(`${lovedTrack.url}?loved_by=${lovedTrack.actor.name}`, new Date(lovedTrack.date.uts * 1000));
             item.body = `&#8220;<a href="${lovedTrack.url}">${lovedTrack.name}</a>&#8221; by <a href="${lovedTrack.artist.url}">${lovedTrack.artist.name}</a>`;
-            const actor = Identity.createWithName(lovedTrack.actor.realname);
+            const identity = Identity.createWithName(lovedTrack.actor.realname);
             if (lovedTrack.actor.name != lovedTrack.actor.realname) {
-                actor.username = lovedTrack.actor.name;
+                identity.username = lovedTrack.actor.name;
             }
             if (lovedTrack.actor.avatar) {
-                actor.avatar = lovedTrack.actor.avatar;
+                identity.avatar = lovedTrack.actor.avatar;
             }
-            actor.uri = `https://www.last.fm/user/${lovedTrack.actor.name}`;
-            item.author = actor;
+            identity.uri = `https://www.last.fm/user/${lovedTrack.actor.name}`;
+            item.author = identity;
             const annotation = Annotation.createWithText(`Loved Track`);
             item.annotations = [annotation];
 
