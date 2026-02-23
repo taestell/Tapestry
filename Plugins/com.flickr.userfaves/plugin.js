@@ -21,7 +21,7 @@ function load() {
     let url = `https://taestell-cloud-worker.taestell.workers.dev/tapestry/flickr/${user}/faves`;
     let minFaveDate = getItem(MIN_FAVE_DATE);
     if (minFaveDate && typeof minFaveDate === 'string' && minFaveDate.trim() !== '') {
-        url += `?${MIN_FAVE_DATE}=${encodeURIComponent(minFaveDate)}`;
+        //url += `?${MIN_FAVE_DATE}=${encodeURIComponent(minFaveDate)}`;
     }
 
     sendRequest(url).then(text => {
@@ -29,10 +29,20 @@ function load() {
         const fetchedItems = jsonObject["items"];
         setItem(MIN_FAVE_DATE, jsonObject["newestFaveDate"]);
 
+        // build author annotation
+        let allFeedItemsAnnotation = [];
+        if (jsonObject.user && typeof jsonObject.user.username === 'string' && jsonObject.user.username.trim() !== '') {
+            const annotation = Annotation.createWithText(`Faved by ${jsonObject.user.name || jsonObject.user.username} on Flickr`);
+            annotation.uri = jsonObject.user.uri;
+            annotation.icon = jsonObject.user.avatar;
+            allFeedItemsAnnotation.push(annotation);
+        }
+
         let items = [];
 
         // Convert fetchedItems to Tapestry Item objects
         for (const fetched of fetchedItems) {
+            const uri = fetched.uri || fetched.url; // oops
             const item = Item.createWithUriDate(fetched.url, new Date(fetched.date));
             if (typeof fetched.title === 'string' && fetched.title.trim() !== '') {
                 item.title = fetched.title;
@@ -42,7 +52,9 @@ function load() {
             }
             if (fetched.author) {
                 const author = Identity.createWithName(fetched.author.name);
-                author.username = fetched.author.username;
+                if (fetched.author.username != fetched.author.name) {
+                    author.username = fetched.author.username;
+                }
                 author.uri = fetched.author.uri;
                 author.avatar = fetched.author.avatar;
                 item.author = author;
@@ -65,6 +77,14 @@ function load() {
                     return Annotation.createWithText(ann.text);
                 });
             }*/
+            // add feed user as annotation
+            if (jsonObject.user && typeof jsonObject.user.username === 'string' && jsonObject.user.username.trim() !== '') {
+                const annotation = Annotation.createWithText(`Faved by ${jsonObject.user.username} on Flickr`);
+                annotation.uri = jsonObject.user.uri;
+                annotation.icon = jsonObject.user.avatar;
+                item.annotations = allFeedItemsAnnotation;
+            }
+            // add item to feed
             items.push(item);
         }
 
