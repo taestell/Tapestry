@@ -1,5 +1,7 @@
 /// <reference path="../../Documentation/tapestry.d.ts" />
 
+const MIN_FAVE_DATE = "min_fave_date";
+
 function verify() {
 
     sendRequest(`https://taestell-cloud-worker.taestell.workers.dev/tapestry/flickr/${user}/faves?validate=true`).then(text => {
@@ -17,6 +19,10 @@ function verify() {
 
 function load() {
     let url = `https://taestell-cloud-worker.taestell.workers.dev/tapestry/flickr/${user}/network-faves`;
+    let minFaveDate = getItem(MIN_FAVE_DATE);
+    if (minFaveDate && typeof minFaveDate === 'string' && minFaveDate.trim() !== '') {
+        url += `?${MIN_FAVE_DATE}=${encodeURIComponent(minFaveDate)}`;
+    }
 
     sendRequest(url).then(text => {
         const jsonObject = JSON.parse(text);
@@ -56,17 +62,12 @@ function load() {
                     return media;
                 });
             }
-            /*if (Array.isArray(fetched.annotations)) {
-                item.annotations = fetched.annotations.map(ann => {
-                    return Annotation.createWithText(ann.text);
-                });
-            }*/
-            // add feed user as annotation
-            if (jsonObject.user && typeof jsonObject.user.username === 'string' && jsonObject.user.username.trim() !== '') {
-                const annotation = Annotation.createWithText(`Faved by ${jsonObject.user.username} on Flickr`);
-                annotation.uri = jsonObject.user.uri;
-                annotation.icon = jsonObject.user.avatar;
-                item.annotations = allFeedItemsAnnotation;
+            // add annotation
+            if (fetched.annotations) {
+                const annotation = Annotation.createWithText(fetched.annotations[0].text);
+                annotation.uri = fetched.annotations[0].uri;
+                annotation.icon = fetched.annotations[0].icon;
+                item.annotations = [annotation];
             }
             // add item to feed
             items.push(item);

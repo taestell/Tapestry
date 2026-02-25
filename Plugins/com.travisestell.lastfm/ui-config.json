@@ -4,6 +4,11 @@
             "name": "user",
             "type": "text",
             "prompt": "User"
+        },
+        {
+            "name": "user2",
+            "type": "text",
+            "prompt": "User2"
         }
     ]
 }

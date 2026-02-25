@@ -71,16 +71,8 @@ function load() {
                     return media;
                 });
             }
-            /*if (Array.isArray(fetched.annotations)) {
-                item.annotations = fetched.annotations.map(ann => {
-                    return Annotation.createWithText(ann.text);
-                });
-            }*/
             // add feed user as annotation
-            if (jsonObject.user && typeof jsonObject.user.username === 'string' && jsonObject.user.username.trim() !== '') {
-                const annotation = Annotation.createWithText(`Faved by ${jsonObject.user.username} on Flickr`);
-                annotation.uri = jsonObject.user.uri;
-                annotation.icon = jsonObject.user.avatar;
+            if (allFeedItemsAnnotation.length > 0) {
                 item.annotations = allFeedItemsAnnotation;
             }
             // add item to feed

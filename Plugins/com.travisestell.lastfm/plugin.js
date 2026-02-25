@@ -1,18 +1,15 @@
 /// <reference path="../../Documentation/tapestry.d.ts" />
 
 function verify() {
-
     const verification = {
         displayName: `Loved Tracks from ${user}'s Friends on Last.fm`
     };
     processVerification(verification);
-
 }
 
 function load() {
     let url = `https://taestell-cloud-worker.taestell.workers.dev/tapestry/lastfm/${user}/friends`;
     console.log(`Fetching loved tracks from friends for user ${user} from Last.fm: ${url}`);
-
 
     sendRequest(url, "GET").then(text => {
         const jsonObject = JSON.parse(text);
@@ -39,9 +36,6 @@ function load() {
             // add item to feed
             items.push(item);
         }
-
-
-
         processResults(items);
 
     });

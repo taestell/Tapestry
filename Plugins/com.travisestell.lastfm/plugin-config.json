@@ -3,7 +3,7 @@
     "default_service_name_visibility": "hidden",
     "display_name": "LastFM - Friends' Loved Tracks",
     "icon": "https://www.last.fm/static/images/lastfm_avatar_applemusic.b06eb8ad89be.png",
-    "id": "fm.last.friendlovedtracks",
+    "id": "com.travisestell.lastfm",
     "item_style": "post",
     "needs_verification": true,
     "provides_attachments": true,
